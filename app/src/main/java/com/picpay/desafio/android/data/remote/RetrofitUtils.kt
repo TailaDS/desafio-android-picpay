@@ -22,10 +22,6 @@ class RetrofitUtils {
             .build()
     }
 
-    val service: PicPayService by lazy {
-        retrofit.create(PicPayService::class.java)
-    }
-
     companion object {
         private const val URL = "https://609a908e0f5a13001721b74e.mockapi.io/picpay/api/"
     }

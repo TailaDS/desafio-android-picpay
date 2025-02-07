@@ -4,22 +4,21 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.picpay.desafio.android.R
 import com.picpay.desafio.android.databinding.ActivityMainBinding
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class UserListActivity : AppCompatActivity(R.layout.activity_main) {
 
     private lateinit var adapter: UserListAdapter
     private lateinit var binding: ActivityMainBinding
 
-    private lateinit var viewModel: UserListViewModel
+    private val viewModel: UserListViewModel by viewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
-        viewModel = ViewModelProvider(this).get(UserListViewModel::class.java)
         setContentView(binding.root)
 
         setupRecyclerView()
@@ -28,7 +27,7 @@ class UserListActivity : AppCompatActivity(R.layout.activity_main) {
     }
 
     private fun setupRecyclerView() {
-//        adapter = UsersListAdapter()
+        adapter = UserListAdapter()
         binding.recyclerView.layoutManager = LinearLayoutManager(this)
         binding.recyclerView.adapter = adapter
         adapter.updateList(emptyList())
@@ -54,35 +53,4 @@ class UserListActivity : AppCompatActivity(R.layout.activity_main) {
 
         Toast.makeText(this@UserListActivity, message, Toast.LENGTH_SHORT).show()
     }
-
-//    override fun onResume() {
-//        super.onResume()
-//
-//        recyclerView = findViewById(R.id.recyclerView)
-//        progressBar = findViewById(R.id.user_list_progress_bar)
-//
-//        adapter = UserListAdapter()
-//        recyclerView.adapter = adapter
-//        recyclerView.layoutManager = LinearLayoutManager(this)
-//
-//        progressBar.visibility = View.VISIBLE
-//        service.getUsers()
-//            .enqueue(object : Callback<List<User>> {
-//                override fun onFailure(call: Call<List<User>>, t: Throwable) {
-//                    val message = getString(R.string.error)
-//
-//                    progressBar.visibility = View.GONE
-//                    recyclerView.visibility = View.GONE
-//
-//                    Toast.makeText(this@UserListActivity, message, Toast.LENGTH_SHORT)
-//                        .show()
-//                }
-//
-//                override fun onResponse(call: Call<List<User>>, response: Response<List<User>>) {
-//                    progressBar.visibility = View.GONE
-//
-//                    adapter.users = response.body()!!
-//                }
-//            })
-//    }
 }
