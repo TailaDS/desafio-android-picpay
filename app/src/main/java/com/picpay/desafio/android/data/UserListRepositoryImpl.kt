@@ -1,12 +1,16 @@
 package com.picpay.desafio.android.data
 
-import com.picpay.desafio.android.data.remote.RetrofitUtils
+import com.picpay.desafio.android.data.remote.PicPayService
 import com.picpay.desafio.android.model.User
 
 class UserListRepositoryImpl(
-    private val retrofit: RetrofitUtils
+    private val service: PicPayService
 ) : UserListRepository {
     override suspend fun fetchUsers() : List<User> {
-        return retrofit.service.getUsers().body()?.toList() ?: emptyList()
+        return try {
+            service.getUsers().toList()
+        } catch (e: Exception) {
+            emptyList()
+        }
     }
 }
