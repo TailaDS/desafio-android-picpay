@@ -15,9 +15,12 @@ class UserListActivity : AppCompatActivity(R.layout.activity_main) {
     private lateinit var binding: ActivityMainBinding
 
     private val viewModel: UserListViewModel by viewModel()
+    private val requestPermissions: RequestPermissions = RequestPermissions()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        requestPermissions.postNotification(this)
+
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
