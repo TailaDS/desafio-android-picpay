@@ -13,11 +13,20 @@ class UserListViewModel(
 ) : ViewModel() {
 
     private val _usersList = MutableLiveData<List<User>>()
+    private val _error = MutableLiveData<Boolean>()
+
     val usersList: LiveData<List<User>> get() = _usersList
+    val error: LiveData<Boolean> get() = _error
 
     fun getUsers() {
         viewModelScope.launch {
-            _usersList.value = useCase.fetchUsers()
+            val usersList = useCase.fetchUsers()
+
+            if(usersList.isNotEmpty()) {
+                _usersList.value = useCase.fetchUsers()
+            } else {
+                _error.value = true
+            }
         }
     }
 }

@@ -30,21 +30,21 @@ class UserListActivity : AppCompatActivity(R.layout.activity_main) {
     }
 
     private fun setupRecyclerView() {
-        adapter = UserListAdapter()
+        adapter = UserListAdapter(emptyList())
         binding.recyclerView.layoutManager = LinearLayoutManager(this)
         binding.recyclerView.adapter = adapter
-        adapter.updateList(emptyList())
     }
 
     private fun setupObservers() {
         viewModel.usersList.observe(this) { users ->
-            if (users.isNullOrEmpty()) {
-                showError()
-            } else {
                 binding.userListProgressBar.visibility = View.GONE
                 binding.recyclerView.visibility = View.VISIBLE
-                adapter.updateList(users)
-            }
+                adapter = UserListAdapter(users)
+                binding.recyclerView.adapter = adapter
+        }
+
+        viewModel.error.observe(this) {
+            showError()
         }
     }
 
